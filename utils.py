@@ -1,3 +1,6 @@
+import TimeCalcGlobals as g
+
+
 class bcolours:
     HEADER = '\033[95m'  # Magenta
     OKBLUE = '\033[94m'
@@ -10,6 +13,9 @@ class bcolours:
     UNDERLINE = '\033[4m'
 
 
+debugMode = False  # Default value so parser doesn't complain
+
+
 def printWarn(inStr):
     """
     [Debug] Prints the input string to the terminal in yellow.
@@ -17,7 +23,9 @@ def printWarn(inStr):
     Parameters:
         inStr -- The thing to be printed
     """
-    print(bcolours.WARNING + str(inStr) + bcolours.ENDC)
+    global debugMode
+    if debugMode:
+        print(bcolours.WARNING + str(inStr) + bcolours.ENDC)
 
 
 def printErr(inStr):
@@ -27,4 +35,6 @@ def printErr(inStr):
     Keyword Argument:
     inStr -- The thing to be printed
     """
-    print(bcolours.FAIL + str(inStr) + bcolours.ENDC)
+    global debugMode
+    if debugMode:
+        print(bcolours.FAIL + str(inStr) + bcolours.ENDC)

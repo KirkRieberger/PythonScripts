@@ -1,14 +1,16 @@
 import re
-from utils import *
+import TimeCalcGlobals as g
+import utils
+from configparser import ConfigParser
 from math import floor
 
 
 def welcome():
     """Prints the program's welcome message to the terminal"""
 
-    print(bcolours.HEADER + "Time adder V1.1" + bcolours.OKCYAN +
+    print(utils.bcolours.HEADER + "Time adder V1.1" + utils.bcolours.OKCYAN +
           "\nPress enter with a blank time to calculate.\n" +
-          "Maximum number of times is 99." + bcolours.ENDC)
+          f"Maximum number of times is {g.numIter}." + utils.bcolours.ENDC)
 
 
 def stringDelimit():
@@ -31,11 +33,10 @@ def stringDelimit():
     # Regex to tokenize input time
     pattern = re.compile(r"(\d+:+)")  # Matches xx:xx:xx:xx:......
 
-    numIter = 99  # Maximum 99 times can be added at a time (arbitrary limit)
     # Read in times to be operated on
     i = 1
     cont = 0
-    while (i <= numIter):
+    while (i <= g.numIter):
         time = input("Time #" + str(i) + " : ")
         if time.lower() == 'exit':
             exit()
@@ -44,7 +45,7 @@ def stringDelimit():
             cont = 1
 
         split = re.split(r'(\d+:+)', time)
-        printErr(split)
+        utils.printErr(split)
 
         j = 0
         while j < len(split):
@@ -78,6 +79,9 @@ def stringDelimit():
                     print("Please enter a valid time")
                     continue
         i += 1
+        if i > g.numIter:
+            return (seconds, minutes, hours)
+
     print()
 
 
@@ -143,11 +147,16 @@ def lengthPrepend(input, length, char='0'):
 
 
 def readConfig():
-    pass
+    config_object = ConfigParser()
+    config_object.read("TimeCalc.ini")
+
+    runtimeInfo = config_object["RUNTIME_INFO"]
+    g.numIter = int(runtimeInfo["numiter"])
+    utils.debugMode = runtimeInfo["debugmode"] == 'True'
 
 
 if __name__ == "__main__":
-
+    readConfig()
     welcome()
     second, minute, hour = stringDelimit()
     # TODO: Change function based on mode
