@@ -37,7 +37,7 @@ def stringDelimit():
     i = 1
     cont = 0
     while (i <= g.numIter):
-        time = input("Time #" + str(i) + " : ")
+        time = input("Time #" + str(i) + ": ")
         if time.lower() == 'exit':
             exit()
         # If the input is the blank string, go to the calculation
