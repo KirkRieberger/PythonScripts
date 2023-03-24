@@ -23,21 +23,24 @@ toleranceBand = {'black': -1, 'brown': 1, 'red': 2, 'orange': -1, 'yellow': -1,
 
 def main():
     while True:
-        numBands = input("How many bands? (4 or 5): ")
-
+        try:
+            numBands = int(input("How many bands? (4 or 5): "))
+        except ValueError:
+            print('Please enter a valid input (4 or 5)!')
+            continue
         match numBands:
-            case '4':
-                sig1 = input('First band colour: ')
-                sig2 = input('Second band colour: ')
+            case 4:
+                sig1 = input('First band colour: ').lower()
+                sig2 = input('Second band colour: ').lower()
                 sig3 = ''
-                mult = input('Third band colour: ')
-                tol = input('Fourth band colour: ')
-            case '5':
-                sig1 = input('First band colour: ')
-                sig2 = input('Second band colour: ')
-                sig3 = input('Third band colour: ')
-                mult = input('Fourth band colour: ')
-                tol = input('Fifth band colour: ')
+                mult = input('Third band colour: ').lower()
+                tol = input('Fourth band colour: ').lower()
+            case 5:
+                sig1 = input('First band colour: ').lower()
+                sig2 = input('Second band colour: ').lower()
+                sig3 = input('Third band colour: ').lower()
+                mult = input('Fourth band colour: ').lower()
+                tol = input('Fifth band colour: ').lower()
             case _:
                 print('Please enter a valid input (4 or 5)!')
                 continue
@@ -45,6 +48,17 @@ def main():
         value = int(digitBand.get(sig1) + digitBand.get(sig2) +
                     digitBand.get(sig3))*multiplyBand.get(mult)
         print(f'Resistor value: {value} ± {toleranceBand.get(tol)}%')
+
+        while True:
+            cont = input('Continue?(y/n): ')
+            match cont:
+                case 'y':
+                    break
+                case 'n':
+                    exit(0)
+                case _:
+                    print('Please enter a valid input (y/n)!')
+                    continue
 
 
 if __name__ == "__main__":
