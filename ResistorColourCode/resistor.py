@@ -1,12 +1,27 @@
 # Command Line Resistor Decoder
 # Author - Kirk Rieberger
 # Version - 0.1
-import sys
-import os
-dir = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(dir))
 
-from .Resistor Colour Code import utils
+import sys
+from pathlib import Path
+
+if __name__ == "__main__" and __package__ is None:
+    file = Path(__file__).resolve()
+    parent, top = file.parent, file.parents[2]
+
+    sys.path.append(str(top))
+    try:
+        sys.path.remove(str(parent))
+
+    except ValueError:
+        pass
+
+    import Python-Scripts.ResistorColourCode
+    __package__ == 'Python-Scripts.ResistorColourCode'
+
+from . import utils
+
+
 # TODO: Error/input checking
 # TODO: Regex character decoding (BrBlBrGld -> 100 5%)
 
