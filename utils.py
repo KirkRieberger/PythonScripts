@@ -1,6 +1,3 @@
-import TimeCalcGlobals as g
-
-
 class bcolours:
     HEADER = '\033[95m'  # Magenta
     OKBLUE = '\033[94m'
