@@ -5,7 +5,8 @@
 import sys
 from pathlib import Path
 
-if __name__ == "__main__" and __package__ is None:
+# From: https://stackoverflow.com/questions/16981921/relative-imports-in-python-3
+if __name__ == "__main__":
     file = Path(__file__).resolve()
     parent, top = file.parent, file.parents[2]
 
@@ -16,11 +17,9 @@ if __name__ == "__main__" and __package__ is None:
     except ValueError:
         pass
 
-    import Python-Scripts.ResistorColourCode
-    __package__ == 'Python-Scripts.ResistorColourCode'
+    __package__ = 'PythonScripts.ResistorColourCode'
 
-from . import utils
-
+from .. import utils
 
 # TODO: Error/input checking
 # TODO: Regex character decoding (BrBlBrGld -> 100 5%)
