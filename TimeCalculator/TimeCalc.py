@@ -165,7 +165,7 @@ def lengthPrepend(input, length, char='0'):
 
 def readConfig():
     config_object = ConfigParser()
-    config_object.read("TimeCalculator\TimeCalc.ini")
+    config_object.read("TimeCalc.ini")
 
     runtimeInfo = config_object["RUNTIME_INFO"]
     g.numIter = int(runtimeInfo["numiter"])
