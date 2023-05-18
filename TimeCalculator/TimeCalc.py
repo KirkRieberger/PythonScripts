@@ -1,8 +1,25 @@
+import sys
+from pathlib import Path
 import re
 import TimeCalcGlobals as g
-import utils
 from configparser import ConfigParser
 from math import floor
+
+# From: https://stackoverflow.com/questions/16981921/relative-imports-in-python-3
+if __name__ == "__main__":
+    file = Path(__file__).resolve()
+    parent, top = file.parent, file.parents[2]
+
+    sys.path.append(str(top))
+    try:
+        sys.path.remove(str(parent))
+
+    except ValueError:
+        pass
+
+    __package__ = 'PythonScripts.TimeCalculator'
+
+from .. import utils
 
 
 def welcome():
@@ -148,7 +165,7 @@ def lengthPrepend(input, length, char='0'):
 
 def readConfig():
     config_object = ConfigParser()
-    config_object.read("TimeCalc.ini")
+    config_object.read("TimeCalculator\TimeCalc.ini")
 
     runtimeInfo = config_object["RUNTIME_INFO"]
     g.numIter = int(runtimeInfo["numiter"])
