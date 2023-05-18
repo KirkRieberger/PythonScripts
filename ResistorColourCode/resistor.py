@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 # From: https://stackoverflow.com/questions/16981921/relative-imports-in-python-3
+# Get the utils module from up the directory tree
 if __name__ == "__main__":
     file = Path(__file__).resolve()
     parent, top = file.parent, file.parents[2]
