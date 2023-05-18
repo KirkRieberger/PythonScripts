@@ -1,7 +1,7 @@
 # Python-Scripts
 
 ## Overview
-This is a collection of Python scripts I've developed to accomplish a certain task, or to learn more about Python development in general.
+This is a collection of Python scripts I've developed to accomplish a certain task, and to learn more about Python development in general.
 
 ### Radio Web Scraper
 This tool scrapes an online list of radio stations in Alberta, Canada and gathers details on their location, frequency, and broadcast power.
