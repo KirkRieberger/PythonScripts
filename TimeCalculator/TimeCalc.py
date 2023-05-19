@@ -160,7 +160,7 @@ def addMinuteSecond(timeList: list[int]):
     outTime = 0
     for time in timeList:
         outTime += time
-    if outTime > 60:
+    if outTime >= 60:
         carry = floor(outTime / 60)
         outTime -= 60*carry
     # print(f'calculated: {outTime}, Carry out: {carry}')
