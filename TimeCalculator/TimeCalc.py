@@ -11,6 +11,7 @@ from configparser import ConfigParser
 from math import floor
 
 # From: https://stackoverflow.com/questions/16981921/relative-imports-in-python-3
+# Sets the package so that relative imports work
 if __name__ == "__main__":
     file = Path(__file__).resolve()
     parent, top = file.parent, file.parents[2]
@@ -30,9 +31,9 @@ from .. import utils
 def welcome():
     """Prints the program's welcome message to the terminal"""
 
-    print(utils.bcolours.HEADER + "Time adder V1.1" + utils.bcolours.OKCYAN +
-          "\nPress enter with a blank time to calculate.\n" +
-          f"Maximum number of times is {g.numIter}." + utils.bcolours.ENDC)
+    utils.printHeader("Time adder V1.1", '')
+    utils.printCyan("\nPress enter with a blank time to calculate.\n" +
+                    f"Maximum number of times is {g.numIter}.")
 
 
 def stringDelimit():
