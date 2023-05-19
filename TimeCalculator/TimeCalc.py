@@ -61,13 +61,17 @@ def stringDelimit():
     cont = 0
     while (i <= g.numIter):
         time = input("Time #" + str(i) + ": ")
+
         if time.lower() == 'exit':
             exit()
+        elif time.lower() == 'help' or time.lower() == 'h':
+            help()
+            continue
         # If the input is the blank string, go to the calculation
         elif time == '':
             cont = 1
 
-        split = re.split(r'(\d+:+)', time)
+        split = re.split(pattern, time)
         utils.printErr(split)
 
         j = 0
@@ -167,6 +171,13 @@ def lengthPrepend(input, length, char='0'):
     if len(str(input)) <= length:
         input = char + str(input)
     return input
+
+
+def help():
+    helpString = "Type times in one of the following formats: HH:MM:SS, " + \
+        "MM:SS, or SS.\nInput times can be any length. Pressing enter" + \
+        " without entering a time will perform the calculation."
+    print(helpString)
 
 
 def readConfig():
