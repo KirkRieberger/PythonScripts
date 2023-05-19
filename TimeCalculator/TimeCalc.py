@@ -1,3 +1,8 @@
+# TimeCalc.py - A small header to define coloured print statements
+# Copyright (C) 2023 Kirk Rieberger
+# Issued under GPLv2 or later
+# See LICENCE.txt for full license
+
 import sys
 from pathlib import Path
 import re
