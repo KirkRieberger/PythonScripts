@@ -1,3 +1,8 @@
+# utils.py - A small header to define coloured print statements
+# Copyright (C) 2023 Kirk Rieberger
+# Issued under GPLv2 or later
+# See LICENCE.txt for full license
+
 class bcolours:
     HEADER = '\033[95m'  # Magenta
     OKBLUE = '\033[94m'
@@ -10,7 +15,7 @@ class bcolours:
     UNDERLINE = '\033[4m'
 
 
-debugMode = False  # Default value so parser doesn't complain
+debugMode = False  # Default value so linter doesn't complain
 
 
 def printWarn(inStr):
