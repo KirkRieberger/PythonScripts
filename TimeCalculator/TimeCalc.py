@@ -143,7 +143,7 @@ def addTime(seconds: list[int], minutes: list[int], hours: list[int]):
     outHour = lengthPrepend(outHour, 1)
 
     print(f'Calculated time: {outHour}:{outMin}:{outSec}', end='\n\n')
-    exit()
+    exit(0)
 
 
 def addMinuteSecond(timeList: list[int]):
@@ -184,12 +184,40 @@ def help():
 
 
 def readConfig():
+
+    # Make sure config exists
+    try:
+        configFile = open('TimeCalc.ini')
+        configFile.close()
+    except FileNotFoundError:
+        utils.debugWarn('Config file not found! Creating config...')
+        createConfig()
+
     config_object = ConfigParser()
     config_object.read("TimeCalc.ini")
 
-    runtimeInfo = config_object["RUNTIME_INFO"]
-    g.numIter = int(runtimeInfo["numiter"])
-    utils.debugMode = runtimeInfo["debugmode"] == 'True'
+    try:
+        runtimeInfo = config_object["RUNTIME_INFO"]
+        g.numIter = int(runtimeInfo["numiter"])
+        utils.debugMode = runtimeInfo["debugmode"] == 'True'
+    except KeyError:
+        # Incorrect file setup
+        pass
+
+
+def createConfig():
+    config_object = ConfigParser()
+
+    config_object["RUNTIME_INFO"] = {
+        "numIter": 99,
+        "debugMode": False
+    }
+
+    with open('TimeCalc.ini', 'w') as conf:
+        config_object.write(conf)
+        conf.close()
+
+    utils.debugWarn("Config Created!\n")
 
 
 if __name__ == "__main__":
