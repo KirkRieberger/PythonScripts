@@ -1,4 +1,4 @@
-# TimeCalc.py - A small header to define coloured print statements
+# TimeCalc.py - A simple* program to add times together.
 # Copyright (C) 2023 Kirk Rieberger
 # Issued under GPLv2 or later
 # See LICENCE.txt for full license
