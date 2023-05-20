@@ -18,7 +18,7 @@ class bcolours:
 debugMode = False  # Default value so linter doesn't complain
 
 
-def printWarn(inStr, lineEnd='\n'):
+def debugWarn(inStr, lineEnd='\n'):
     """
     [Debug] Prints the input string to the terminal in yellow.
 
@@ -30,7 +30,7 @@ def printWarn(inStr, lineEnd='\n'):
         print(bcolours.WARNING + str(inStr) + bcolours.ENDC, end=lineEnd)
 
 
-def printErr(inStr, lineEnd='\n'):
+def debugErr(inStr, lineEnd='\n'):
     """
     [Debug] Prints the input string to the terminal in red.
 
@@ -62,3 +62,25 @@ def printCyan(inStr, lineEnd='\n'):
     """
 
     print(bcolours.OKCYAN + str(inStr) + bcolours.ENDC, end=lineEnd)
+
+
+def printWarn(inStr, lineEnd='\n'):
+    """
+    Prints the input string to the terminal in yellow.
+
+    Keyword Argument:
+    inStr -- The thing to be printed
+    """
+
+    print(bcolours.WARNING + str(inStr) + bcolours.ENDC, end=lineEnd)
+
+
+def printErr(inStr, lineEnd='\n'):
+    """
+    Prints the input string to the terminal in magenta.
+
+    Keyword Argument:
+    inStr -- The thing to be printed
+    """
+
+    print(bcolours.FAIL + str(inStr) + bcolours.ENDC, end=lineEnd)
