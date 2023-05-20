@@ -1,6 +1,8 @@
-"""
-FMScrape.py
-"""
+# FMScrape.py - A small web scraper to find radio stations in Alberta, Canada.
+# Copyright (C) 2023 Kirk Rieberger
+# Issued under GPLv2 or later
+# See LICENCE.txt for full license
+
 import requests
 from bs4 import BeautifulSoup
 import re
