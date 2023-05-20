@@ -35,6 +35,9 @@ def welcome():
     utils.printCyan("\nPress enter with a blank time to calculate.\n" +
                     f"Maximum number of times is {g.numIter}.")
 
+    # Only prints if debug mode is enabled in the config file
+    utils.debugErr("Debug mode enabled")
+
 
 def stringDelimit():
     """
@@ -72,7 +75,7 @@ def stringDelimit():
             cont = 1
 
         split = re.split(pattern, time)
-        utils.printErr(split)
+        utils.debugErr(split)
 
         j = 0
         while j < len(split):
