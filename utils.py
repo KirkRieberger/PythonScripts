@@ -3,6 +3,8 @@
 # Issued under GPLv2 or later
 # See LICENCE.txt for full license
 
+# TODO: printColour(inStr, colour, end)
+
 class bcolours:
     HEADER = '\033[95m'  # Magenta
     OKBLUE = '\033[94m'
