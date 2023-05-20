@@ -208,8 +208,8 @@ def createConfig():
     config_object = ConfigParser()
 
     config_object["RUNTIME_INFO"] = {
-        "numIter": 2,
-        "debugMode": True
+        "numIter": 99,
+        "debugMode": False
     }
 
     with open('TimeCalc.ini', 'w') as conf:
