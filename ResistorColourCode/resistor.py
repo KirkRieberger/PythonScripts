@@ -1,6 +1,7 @@
-# Command Line Resistor Decoder
-# Author - Kirk Rieberger
-# Version - 0.1
+# resistor.py - A simple through-hole resistor colour band decoder.
+# Copyright (C) 2023 Kirk Rieberger
+# Issued under GPLv2 or later
+# See LICENCE.txt for full license
 
 import sys
 from pathlib import Path
