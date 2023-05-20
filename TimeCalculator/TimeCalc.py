@@ -4,8 +4,8 @@
 # See LICENCE.txt for full license
 
 import sys
-from pathlib import Path
 import re
+from pathlib import Path
 from configparser import ConfigParser
 from math import floor
 
