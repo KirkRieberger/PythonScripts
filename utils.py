@@ -15,7 +15,7 @@ class bcolours:
     UNDERLINE = '\033[4m'
 
 
-debugMode = False  # Default value so linter doesn't complain
+debugMode = True  # Default value so linter doesn't complain
 
 
 def debugWarn(inStr, lineEnd='\n'):
