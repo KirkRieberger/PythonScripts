@@ -6,7 +6,6 @@
 import sys
 from pathlib import Path
 import re
-import TimeCalcGlobals as g
 from configparser import ConfigParser
 from math import floor
 
@@ -33,7 +32,7 @@ def welcome():
 
     utils.printHeader("Time adder V1.1", '')
     utils.printCyan("\nPress enter with a blank time to calculate.\n" +
-                    f"Maximum number of times is {g.numIter}.")
+                    f"Maximum number of times is {numIter}.")
 
     # Only prints if debug mode is enabled in the config file
     utils.debugErr("Debug mode enabled")
@@ -62,7 +61,7 @@ def stringDelimit():
     # Read in times to be operated on
     i = 1
     cont = 0
-    while (i <= g.numIter):
+    while (i <= numIter):
         time = input("Time #" + str(i) + ": ")
 
         if time.lower() == 'exit':
@@ -109,7 +108,7 @@ def stringDelimit():
                     print("Please enter a valid time")
                     continue
         i += 1
-        if i > g.numIter:
+        if i > numIter:
             return (seconds, minutes, hours)
 
     print()
@@ -184,7 +183,7 @@ def help():
 
 
 def readConfig():
-
+    global numIter
     # Make sure config exists
     try:
         configFile = open('TimeCalc.ini')
@@ -198,7 +197,7 @@ def readConfig():
 
     try:
         runtimeInfo = config_object["RUNTIME_INFO"]
-        g.numIter = int(runtimeInfo["numiter"])
+        numIter = int(runtimeInfo["numiter"])
         utils.debugMode = runtimeInfo["debugmode"] == 'True'
     except KeyError:
         # Incorrect file setup
@@ -221,6 +220,7 @@ def createConfig():
 
 
 if __name__ == "__main__":
+    numIter = -1
     readConfig()
     welcome()
     second, minute, hour = stringDelimit()
