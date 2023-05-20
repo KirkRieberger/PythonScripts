@@ -142,7 +142,7 @@ def addTime(seconds: list[int], minutes: list[int], hours: list[int]):
     outHour = lengthPrepend(outHour, 1)
 
     print(f'Calculated time: {outHour}:{outMin}:{outSec}', end='\n\n')
-    exit(0)
+    sys.exit(0)
 
 
 def addMinuteSecond(timeList: list[int]):
@@ -208,8 +208,8 @@ def createConfig():
     config_object = ConfigParser()
 
     config_object["RUNTIME_INFO"] = {
-        "numIter": 99,
-        "debugMode": False
+        "numIter": 2,
+        "debugMode": True
     }
 
     with open('TimeCalc.ini', 'w') as conf:
