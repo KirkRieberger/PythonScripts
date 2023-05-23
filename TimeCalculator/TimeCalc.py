@@ -176,9 +176,9 @@ def lengthPrepend(input, length, char='0'):
 
 
 def help():
-    helpString = "Type times in one of the following formats: HH:MM:SS, " + \
-        "MM:SS, or SS.\nInput times can be any length. Pressing enter" + \
-        " without entering a time will perform the calculation."
+    helpString = "\nType times in one of the following formats: HH:MM:SS, " + \
+        "MM:SS, or SS.\nInput times can be any length.\nPressing enter" + \
+        " without entering a time will perform the calculation.\n"
     print(helpString)
 
 
