@@ -41,19 +41,19 @@ file.write('Date Updated: ' + date + '\n\n')
 
 i = 4
 while (i < len(list(rows))):
-    # Parse table data (td) fields, skipping programming format and station
-    # name and station call sign, one row at a time
+    # Parse table data (td) fields, skipping programming format, station name,
+    # and station call sign, one row at a time
     temp = rows[i].find_all('td')
     out = []
     j = 0
     while (j < 8):
-        # Skip programming format and station name and call sign
+        # Skip programming format, station name, and call sign
         if j == 3 or j == 4 or j == 5:
             j += 1
             continue
         out.append(temp[j].text)
         j += 1
-# Exit at first spacing line after data lines
+    # Exit at first spacing line after data lines
     if out == ['', '', '', '', '']:
         break
     # Don't care about AM stations
@@ -70,7 +70,7 @@ while (i < len(list(rows))):
         if k == 2:
             k += 1
             continue
-        file.write('%s%s' % (out[k], ' '))
+        file.write('%s%s' % (out[k], ' '))  # f string
         k += 1
     file.write('\n')
     i += 1
@@ -79,4 +79,4 @@ file.close()
 
 end = time.perf_counter()
 elapsed = round(end - start, 2)
-print(f'Elapsed time: {elapsed}s')
+print(f'\nElapsed time: {elapsed}s')
