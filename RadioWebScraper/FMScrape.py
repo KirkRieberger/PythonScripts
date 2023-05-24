@@ -4,8 +4,11 @@
 # See LICENCE.txt for full license
 
 import requests
-from bs4 import BeautifulSoup
 import re
+import time
+from bs4 import BeautifulSoup
+
+start = time.perf_counter()
 
 url = 'https://www.canadianradiodirectory.com/alberta/'
 
@@ -73,3 +76,7 @@ while (i < len(list(rows))):
     i += 1
 
 file.close()
+
+end = time.perf_counter()
+elapsed = round(end - start, 2)
+print(f'Elapsed time: {elapsed}s')
