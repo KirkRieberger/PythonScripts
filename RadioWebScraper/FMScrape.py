@@ -30,9 +30,9 @@ rows = table.find_all('tr')
 # Row 1 is site heading and date
 # Row 2 is spacing
 # Row 3 is column labels
-# Row 4 and beyond is radio station data
+# Row 4 and beyond are radio station data
 
-file = open('AltaRadioStations.txt', 'w', encoding='UTF-8 ')
+file = open('AltaRadioStations.txt', 'w', encoding='UTF-8')
 
 date = str(rows[1].find_all('td')[3])
 # Regex to strip HTML tags from the date
