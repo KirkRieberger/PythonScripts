@@ -6,6 +6,7 @@
 import requests
 import re
 import time
+import sys
 from bs4 import BeautifulSoup
 
 start = time.perf_counter()
@@ -18,7 +19,7 @@ if page.status_code == requests.codes.ok:
     print('Connection successful!')
 else:
     print('Error connecting to site')
-    exit()
+    sys.exit(1)
 
 soup = BeautifulSoup(page.text, 'lxml')
 
