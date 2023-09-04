@@ -7,7 +7,7 @@ import requests
 import re
 import time
 import sys
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup as bs
 
 start = time.perf_counter()
 
@@ -21,7 +21,7 @@ else:
     print('Error connecting to site')
     sys.exit(1)
 
-soup = BeautifulSoup(page.text, 'lxml')
+soup = bs(page.text, 'lxml')
 
 table = soup.find('table')
 rows = table.find_all('tr')
