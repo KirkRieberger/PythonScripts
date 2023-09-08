@@ -65,7 +65,6 @@ while (i < len(list(rows))):
     elif out[4] == 'kW':
         out[3] = int(float(out[3])*1000)
         out[4] = 'w'
-    print(out)
     k = 0
     while k < 5:
         if k == 2:
