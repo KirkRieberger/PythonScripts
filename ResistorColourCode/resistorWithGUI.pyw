@@ -20,37 +20,44 @@ def genWindow():
     root.title("Resistor Colour Code Calculator")
     root.resizable(False, False)
 
-    digitStr0 = tk.StringVar(value="brown")
-    digitStr1 = tk.StringVar(value="black")
+    digitStr0 = tk.StringVar(value="Brown")
+    digitStr1 = tk.StringVar(value="Black")
     digitStr2 = tk.StringVar(value="")
-    multStr = tk.StringVar(value="red")
-    tolStr = tk.StringVar(value="gold")
+    multStr = tk.StringVar(value="Red")
+    tolStr = tk.StringVar(value="Gold")
     tempStr = tk.StringVar()
-    resultStr = tk.StringVar(value="100")
+    resultStr = tk.StringVar(value="1000Ω ±5%")
 
     resistorFrame = ttk.LabelFrame(root, text="Resistor:")
     resistorFrame.pack(padx=20, pady=10, fill='x')
+
+    bandFrame = ttk.LabelFrame(root, text="Bands:")
+    bandFrame.pack(padx=20, pady=10, fill='x')
 
     resultFrame = ttk.LabelFrame(root, text="Result:")
     resultFrame.pack(padx=20, pady=10, fill='x')
 
     digitLabel0 = ttk.Label(
-        resistorFrame, text="Digit 1").grid(row=0, column=0)
+        bandFrame, text="Digit 1").grid(row=0, column=0)
     digitLabel1 = ttk.Label(
-        resistorFrame, text="Digit 2").grid(row=0, column=1)
+        bandFrame, text="Digit 2").grid(row=0, column=1)
+    digitLabel2 = ttk.Label(
+        bandFrame, text="Digit 3")
     multiplyLabel = ttk.Label(
-        resistorFrame, text="Multiply").grid(row=0, column=2)
+        bandFrame, text="Multiply").grid(row=0, column=3)
     toleranceLabel = ttk.Label(
-        resistorFrame, text="Tolerance").grid(row=0, column=3)
+        bandFrame, text="Tolerance").grid(row=0, column=4)
 
-    digitBox0 = ttk.Combobox(resistorFrame, values=digitColours,
+    digitBox0 = ttk.Combobox(bandFrame, values=digitColours,
                              textvariable=digitStr0, width=7).grid(row=1, column=0, padx=5)
-    digitBox1 = ttk.Combobox(resistorFrame, values=digitColours,
+    digitBox1 = ttk.Combobox(bandFrame, values=digitColours,
                              textvariable=digitStr1, width=7).grid(row=1, column=1, padx=5)
-    multiplyBox = ttk.Combobox(resistorFrame, values=multiplyColours,
-                               textvariable=multStr, width=7).grid(row=1, column=2, padx=5)
-    toleranceBox = ttk.Combobox(resistorFrame, values=toleranceColours,
-                                textvariable=tolStr, width=7).grid(row=1, column=3, padx=5)
+    digitBox2 = ttk.Combobox(bandFrame, values=digitColours,
+                             textvariable=digitStr2, width=7)
+    multiplyBox = ttk.Combobox(bandFrame, values=multiplyColours,
+                               textvariable=multStr, width=7).grid(row=1, column=3, padx=5)
+    toleranceBox = ttk.Combobox(bandFrame, values=toleranceColours,
+                                textvariable=tolStr, width=7).grid(row=1, column=4, padx=5)
 
     result = ttk.Label(resultFrame, text=resultStr.get())
     result.grid(row=0, column=2)
