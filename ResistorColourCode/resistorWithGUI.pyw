@@ -13,7 +13,7 @@ def genWindow(colours: str, digitBand: dict):
     tolStr = tk.StringVar(value="gold")
     tempStr = tk.StringVar()
 
-    resistorFrame = ttk.LabelFrame(root, text="Resistor: ", )
+    resistorFrame = ttk.LabelFrame(root, text="Resistor: ")
     resistorFrame.pack(padx=20, pady=10, fill='x')
 
     digitLabel0 = ttk.Label(
