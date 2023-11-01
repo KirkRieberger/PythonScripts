@@ -1,6 +1,7 @@
 *.txt
 !LICENSE.txt
 *.ini
+*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
