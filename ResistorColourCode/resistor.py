@@ -62,7 +62,7 @@ def checkValidColour(inputVector, inputLength):
                 case 5:
                     print(f'Error in {inputPos5[i]}!')
                 case _:
-                    utils.printErr(f'Input length error!')
+                    utils.printErr('Input length error!')
 
         i += 1
 
