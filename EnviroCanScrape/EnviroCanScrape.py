@@ -55,7 +55,7 @@ stats.write('Average:\n---------\n')
 stats.write(f'Request: {reqTotal/(num-1):18}s, Parse: {parseTotal/(num-1):20}s, Regex: {regTotal/(num-1)}s')
 
 with open('EnviroCanCities.csv', 'w') as outCSV:
-    outCSV.write('Index,Locale')
+    outCSV.write('Index,Locale\n')
     for key, value in cities.items():
         outCSV.write(f'{key},{value}\n')
 
