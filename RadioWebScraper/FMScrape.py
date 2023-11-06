@@ -3,6 +3,8 @@
 # Issued under GPLv2 or later
 # See LICENCE.txt for full license
 
+#TODO: Command line args to select province, AM/FM/Both
+
 import requests
 import re
 import time
