@@ -3,6 +3,8 @@ import re
 import time
 from bs4 import BeautifulSoup as bs
 
+#TODO: Province Select
+
 stats = open('performanceStats.txt', 'w')
 
 start = time.perf_counter()
