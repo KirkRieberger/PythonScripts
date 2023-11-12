@@ -12,6 +12,18 @@
             "cwd": "${fileDirname}",
             "console": "integratedTerminal",
             "justMyCode": true
+        },
+        {
+            "name": "Python: Args",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "cwd": "${fileDirname}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "./"
+            ]
         }
     ]
 }
