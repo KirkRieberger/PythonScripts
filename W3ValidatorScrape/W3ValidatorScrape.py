@@ -53,9 +53,10 @@ def testFile(inFile):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Submit all .html files in a directory to the W3 Consortium HTML Validator.")
+        description="Submit all HTML files in a directory to the W3 Consortium HTML Validator.")
     parser.add_argument('dir', type=str,
                         help="The directory of HTML files to be validated")
+    # parser.add_argument()
     args = parser.parse_args()
 
     dir = os.fsencode(args.dir)
@@ -67,9 +68,10 @@ def main():
 
     outFile = open("testOut.txt", "w")
 
+    fileList = []
     for file in os.listdir(dir):
         filename = os.fsdecode(file)
-        if filename.endswith(".html"):
+        if filename.endswith(".html") or filename.endswith(".htm"):
             print(f"Processing {filename}...")
             outFile.write(f"{filename}:\n")
             outFile.write(f"{testFile(file)}\n")
