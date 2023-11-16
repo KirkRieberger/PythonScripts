@@ -68,13 +68,16 @@ def main():
 
     outFile = open("testOut.txt", "w")
 
-    fileList = []
-    for file in os.listdir(dir):
-        filename = os.fsdecode(file)
+    fileList = {}
+    for file in os.listdir(dir):  # file == bytes
+        filename = os.fsdecode(file)  # String
         if filename.endswith(".html") or filename.endswith(".htm"):
-            print(f"Processing {filename}...")
-            outFile.write(f"{filename}:\n")
-            outFile.write(f"{testFile(file)}\n")
+            fileList.update({filename: file})
+
+    for key in fileList.keys():
+        print(f"Processing {key}...")
+        outFile.write(f"{fileList.get(key)}:\n")
+        outFile.write(f"{testFile(fileList.get(key))}\n")
 
     outFile.close()
 
