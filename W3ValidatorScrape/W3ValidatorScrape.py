@@ -20,8 +20,10 @@ def testFile(inFile):
     outStr = ""
 
     for element in errors:
-        if element.find("span", {"class": "first-line"}) != None:
+        if element.find("span", {"class": "first-line"}) is not None:
             row = element.find("span", {"class": "first-line"}).text
+        elif element.find("span", {"class": "last-line"}) is not None:
+            row = element.find("span", {"class": "last-line"}).text
         else:
             row = "None"
 
