@@ -8,14 +8,25 @@ url = 'https://validator.w3.org/nu/#file'
 
 
 def testFile(inFile):
+    '''
+    Upload a file to the W3 Consortium HTML Validator and return a list of errors.
+    ### Params:
+    inFile : An OS Encoded Filename in the current working directory
+
+    ### Returns:
+        outStr : A string of warnings and errors
+    '''
     # Upload file to be tested
     file = open(inFile, 'rb')
     page = requests.post(url, data={'s': 'Upload'}, files={'file': file})
-
+    # Parse returned page
     soup = bs(page.text, 'lxml')
-
     list = soup.find('ol')
-    errors = list.find_all('li')
+
+    try:
+        errors = list.find_all('li')
+    except AttributeError:
+        return "✔"  # Unicode 0x2714
 
     outStr = ""
 
@@ -49,9 +60,10 @@ def main():
     args = parser.parse_args()
 
     dir = os.fsencode(args.dir)
+    isdir = os.path.isdir(dir)
     if (not os.path.isdir(dir)):
-        print("Error")
-        sys_ex
+        print("Error: Directory specified does not exist!")
+        sys_ex()
 
     os.chdir(dir)
 
