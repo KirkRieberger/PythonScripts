@@ -66,7 +66,7 @@ def main():
 
     os.chdir(dir)
 
-    outFile = open("testOut.txt", "w")
+    outFile = open("testOut.txt", "w", encoding="UTF-8")
 
     fileList = {}
     for file in os.listdir(dir):  # file == bytes
