@@ -4,8 +4,6 @@ import os
 from sys import exit as sys_ex
 from bs4 import BeautifulSoup as bs
 
-url = 'https://validator.w3.org/nu/#file'
-
 
 def testFile(inFile):
     '''
@@ -16,6 +14,7 @@ def testFile(inFile):
     ### Returns:
         outStr : A string of warnings and errors
     '''
+    url = 'https://validator.w3.org/nu/#file'
     # Upload file to be tested
     file = open(inFile, 'rb')
     page = requests.post(url, data={'s': 'Upload'}, files={'file': file})
@@ -60,9 +59,8 @@ def main():
     args = parser.parse_args()
 
     dir = os.fsencode(args.dir)
-    isdir = os.path.isdir(dir)
     if (not os.path.isdir(dir)):
-        print("Error: Directory specified does not exist!")
+        print("Error: Directory specified does not exist!\n")
         sys_ex()
 
     os.chdir(dir)
