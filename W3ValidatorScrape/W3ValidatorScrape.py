@@ -10,7 +10,7 @@ def testFile(inFile):
     '''
     Upload a file to the W3 Consortium HTML Validator and return a list of errors.
     ### Params:
-    inFile : An OS Encoded Filename in the current working directory
+        inFile : An OS Encoded Filename in the current working directory
 
     ### Returns:
         outStr : A string of warnings and errors
