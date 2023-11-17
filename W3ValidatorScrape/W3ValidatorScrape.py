@@ -3,6 +3,7 @@ import requests
 import os
 from sys import exit as sys_ex
 from bs4 import BeautifulSoup as bs
+from progress.bar import Bar
 
 
 def testFile(inFile):
@@ -73,11 +74,12 @@ def main():
         filename = os.fsdecode(file)  # String
         if filename.endswith(".html") or filename.endswith(".htm"):
             fileList.update({filename: file})
-
+    
+    progBar = Bar("Validating", max=len(fileList))
     for key in fileList.keys():
-        print(f"Processing {key}...")
         outFile.write(f"{fileList.get(key)}:\n")
         outFile.write(f"{testFile(fileList.get(key))}\n")
+        progBar.next()
 
     outFile.close()
 
