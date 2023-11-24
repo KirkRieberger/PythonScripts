@@ -3,7 +3,7 @@ import re
 import time
 from bs4 import BeautifulSoup as bs
 
-#TODO: Province Select
+#TODO: Province Select. Cmd line arg?
 
 stats = open('performanceStats.txt', 'w')
 
@@ -16,7 +16,7 @@ parseTotal = 0
 regTotal = 0
 
 while num < 73: # City number 72 (Edson) is last
-    if num % 5 ==0:
+    if num % 5 == 0:
         #TODO: Replace with progress bar https://builtin.com/software-engineering-perspectives/python-progress-bar
         print(f'City number {num}...')
     stats.write(f'City #{num}:\n---------\n')

@@ -11,6 +11,8 @@ from math import floor
 
 # From: https://stackoverflow.com/questions/16981921/relative-imports-in-python-3
 # Sets the package so that relative imports work
+
+# Unnecessary. Just put it in the packages folder...
 if __name__ == "__main__":
     file = Path(__file__).resolve()
     parent, top = file.parent, file.parents[2]

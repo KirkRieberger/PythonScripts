@@ -25,7 +25,7 @@ def testFile(inFile):
 
     try:
         errors = list.find_all('li')
-    except AttributeError:
+    except AttributeError: # If no unordered list
         return "✔"  # Unicode 0x2714
 
     outStr = ""
