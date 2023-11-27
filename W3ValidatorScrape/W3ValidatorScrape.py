@@ -3,19 +3,30 @@ import requests
 import os
 from sys import exit as sys_ex
 from bs4 import BeautifulSoup as bs
-
-url = 'https://validator.w3.org/nu/#file'
+from progress.bar import Bar
 
 
 def testFile(inFile):
+    '''
+    Upload a file to the W3 Consortium HTML Validator and return a list of errors.
+    ### Params:
+        inFile : An OS Encoded Filename in the current working directory
+
+    ### Returns:
+        outStr : A string of warnings and errors
+    '''
+    url = 'https://validator.w3.org/nu/#file'
     # Upload file to be tested
     file = open(inFile, 'rb')
     page = requests.post(url, data={'s': 'Upload'}, files={'file': file})
-
+    # Parse returned page
     soup = bs(page.text, 'lxml')
-
     list = soup.find('ol')
-    errors = list.find_all('li')
+
+    try:
+        errors = list.find_all('li')
+    except AttributeError: # If no unordered list
+        return "✔"  # Unicode 0x2714
 
     outStr = ""
 
@@ -43,26 +54,32 @@ def testFile(inFile):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Submit all .html files in a directory to the W3 Consortium HTML Validator.")
+        description="Submit all HTML files in a directory to the W3 Consortium HTML Validator.")
     parser.add_argument('dir', type=str,
                         help="The directory of HTML files to be validated")
+    # parser.add_argument()
     args = parser.parse_args()
 
     dir = os.fsencode(args.dir)
     if (not os.path.isdir(dir)):
-        print("Error")
-        sys_ex
+        print("Error: Directory specified does not exist!\n")
+        sys_ex()
 
     os.chdir(dir)
 
-    outFile = open("testOut.txt", "w")
+    outFile = open("testOut.txt", "w", encoding="UTF-8")
 
-    for file in os.listdir(dir):
-        filename = os.fsdecode(file)
-        if filename.endswith(".html"):
-            print(f"Processing {filename}...")
-            outFile.write(f"{filename}:\n")
-            outFile.write(f"{testFile(file)}\n")
+    fileList = {}
+    for file in os.listdir(dir):  # file == bytes
+        filename = os.fsdecode(file)  # String
+        if filename.endswith(".html") or filename.endswith(".htm"):
+            fileList.update({filename: file})
+    
+    progBar = Bar("Validating", max=len(fileList))
+    for key in fileList.keys():
+        outFile.write(f"{fileList.get(key)}:\n")
+        outFile.write(f"{testFile(fileList.get(key))}\n")
+        progBar.next()
 
     outFile.close()
 
