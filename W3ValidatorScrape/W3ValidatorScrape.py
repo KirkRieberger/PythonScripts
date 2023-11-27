@@ -2,7 +2,7 @@ import argparse
 import requests
 import os
 from sys import exit as sys_ex
-from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup as bs # Also requires lxml to be installed
 from progress.bar import Bar
 
 def testFile(inFile):
@@ -79,7 +79,7 @@ def main():
     
     progBar = Bar("Validating", max=len(fileList))
     for key in fileList.keys():
-        outFile.write(f"{fileList.get(key)}:\n")
+        outFile.write(f"{os.fsdecode(fileList.get(key))}:\n")
         outFile.write(f"{testFile(fileList.get(key))}\n")
         progBar.next()
 
