@@ -3,6 +3,7 @@
 *.ini
 *.csv
 W3ValidatorScrape/*.html
+launch.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
