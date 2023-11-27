@@ -5,7 +5,6 @@ from sys import exit as sys_ex
 from bs4 import BeautifulSoup as bs
 from progress.bar import Bar
 
-
 def testFile(inFile):
     '''
     Upload a file to the W3 Consortium HTML Validator and return a list of errors.
@@ -49,7 +48,10 @@ def testFile(inFile):
             else:
                 outStr += f"{element.find('p').text}\n"
 
-    return outStr
+    if len(outStr) == 0:
+        return "✔"  # Unicode 0x2714
+    else:
+        return outStr
 
 
 def main():
