@@ -11,9 +11,26 @@ import time
 import sys
 from bs4 import BeautifulSoup as bs
 
+class DataSources:
+    bc = 'https://www.canadianradiodirectory.com/british-columbia/'
+    ab = 'https://www.canadianradiodirectory.com/alberta/'
+    sk = 'https://www.canadianradiodirectory.com/saskatchewan/'
+    mb = 'https://www.canadianradiodirectory.com/manitoba/'
+    on = 'https://www.canadianradiodirectory.com/ontario/'
+    qc = 'https://www.canadianradiodirectory.com/quebec/'
+    nb = 'https://www.canadianradiodirectory.com/new-brunswick/'
+    ns = 'https://www.canadianradiodirectory.com/nova-scotia/'
+    pe = 'https://www.canadianradiodirectory.com/prince-edward-island/'
+    nl = 'https://www.canadianradiodirectory.com/newfoundland-labrador/'
+    yt = 'https://www.canadianradiodirectory.com/yukon/'
+    nt = 'https://www.canadianradiodirectory.com/northwest-territories/'
+    nu = 'https://www.canadianradiodirectory.com/nunavut/'
+
+sources = DataSources()
+
 start = time.perf_counter()
 
-url = 'https://www.canadianradiodirectory.com/alberta/'
+url = sources.alberta
 
 page = requests.get(url)
 print('Requesting data from Alberta radio directory...')
