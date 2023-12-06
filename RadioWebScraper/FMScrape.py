@@ -11,20 +11,34 @@ import sys
 from bs4 import BeautifulSoup as bs
 
 class DataSources:
-    bc = 'https://www.canadianradiodirectory.com/british-columbia/'
-    ab = 'https://www.canadianradiodirectory.com/alberta/'
-    sk = 'https://www.canadianradiodirectory.com/saskatchewan/'
-    mb = 'https://www.canadianradiodirectory.com/manitoba/'
-    on = 'https://www.canadianradiodirectory.com/ontario/'
-    qc = 'https://www.canadianradiodirectory.com/quebec/'
-    nb = 'https://www.canadianradiodirectory.com/new-brunswick/'
-    ns = 'https://www.canadianradiodirectory.com/nova-scotia/'
-    pe = 'https://www.canadianradiodirectory.com/prince-edward-island/'
-    nl = 'https://www.canadianradiodirectory.com/newfoundland-labrador/'
-    yt = 'https://www.canadianradiodirectory.com/yukon/'
-    nt = 'https://www.canadianradiodirectory.com/northwest-territories/'
-    nu = 'https://www.canadianradiodirectory.com/nunavut/'
+    bc_url = 'https://www.canadianradiodirectory.com/british-columbia/'
+    bc = 'BC'
+    ab_url = 'https://www.canadianradiodirectory.com/alberta/'
+    ab = 'Alberta'
+    sk_url = 'https://www.canadianradiodirectory.com/saskatchewan/'
+    sk = 'Saskatchewan'
+    mb_url = 'https://www.canadianradiodirectory.com/manitoba/'
+    mb = 'Manitoba'
+    on_url = 'https://www.canadianradiodirectory.com/ontario/'
+    on = 'Ontario'
+    qc_url = 'https://www.canadianradiodirectory.com/quebec/'
+    qc = 'Quebec'
+    nb_url = 'https://www.canadianradiodirectory.com/new-brunswick/'
+    nb = 'NewBrunswick'
+    ns_url = 'https://www.canadianradiodirectory.com/nova-scotia/'
+    ns = 'NovaScotia'
+    pe_url = 'https://www.canadianradiodirectory.com/prince-edward-island/'
+    pe = 'PEI'
+    nl_url = 'https://www.canadianradiodirectory.com/newfoundland-labrador/'
+    nl = 'Newfoundland-Labrador'
+    yt_url = 'https://www.canadianradiodirectory.com/yukon/'
+    yt = 'Yukon'
+    nt_url = 'https://www.canadianradiodirectory.com/northwest-territories/'
+    nt = 'NorthwestTerritories'
+    nu_url = 'https://www.canadianradiodirectory.com/nunavut/'
+    nu = 'Nunavut'
 
+    
 sources = DataSources()
 
 
