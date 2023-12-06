@@ -4,6 +4,7 @@
 # See LICENCE.txt for full license
 
 #TODO: Command line args to select province, AM/FM/Both
+#TODO: Command line args to select columns (Location, Frequency, Band, Station Name, Format, Call Sign, Power)
 import requests
 import time
 import sys
@@ -42,7 +43,6 @@ sources = DataSources()
 
 
 def getData(url, prov):
-    start = time.perf_counter()
     page = requests.get(url)
     print(f'Requesting data from {prov} radio directory...')
     if page.status_code == requests.codes.ok:
@@ -56,18 +56,22 @@ def getData(url, prov):
     table = soup.find('table')
     rows = table.find_all('tr')
 
+    return rows
+
+def parseData(rows):
+
     # Row 0 is spacing
     # Row 1 is province/territory heading and date
     # Row 2 is spacing
     # Row 3 is column labels
     # Row 4 and beyond are radio station data
 
-    file = open(f'{prov}RadioStations.txt', 'w', encoding='UTF-8')
+    # file = open(f'{prov}RadioStations.txt', 'w', encoding='UTF-8')
+
+    outputBuffer = ""
 
     date = str(rows[1].find_all('td')[3].text)
-    # Regex to strip HTML tags from the date
-
-    file.write('Date Updated: ' + date + '\n\n')
+    outputBuffer += f'Date Updated: {date}\n\n'
 
     i = 4
     while (i < len(list(rows))):
@@ -99,19 +103,19 @@ def getData(url, prov):
             if k == 2:
                 k += 1
                 continue
-            file.write('%s%s' % (out[k], ' '))  # f string
+            outputBuffer += f'{out[k] }' #('%s%s' % (out[k], ' '))  # f string
             k += 1
-        file.write('\n')
+        outputBuffer += '\n'
         i += 1
 
-    file.close()
+    return outputBuffer
+    # file.close()
 
-    end = time.perf_counter()
-    elapsed = round(end - start, 2)
-    print(f'\nElapsed time: {elapsed}s')
 
 def main():
-    getData(sources.ab_url, sources.ab)
+    rows = getData(sources.ab_url, sources.ab)
+    data = parseData(rows)
+    print("Nominal print to stop debugger")
 
 
 if __name__ == "__main__":
