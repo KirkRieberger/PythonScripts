@@ -5,7 +5,6 @@
 
 #TODO: Command line args to select province, AM/FM/Both
 import requests
-import re
 import time
 import sys
 from bs4 import BeautifulSoup as bs
@@ -42,10 +41,10 @@ class DataSources:
 sources = DataSources()
 
 
-def getData(url):
+def getData(url, prov):
     start = time.perf_counter()
     page = requests.get(url)
-    print('Requesting data from Alberta radio directory...')
+    print(f'Requesting data from {prov} radio directory...')
     if page.status_code == requests.codes.ok:
         print('Connection successful!')
     else:
@@ -63,11 +62,10 @@ def getData(url):
     # Row 3 is column labels
     # Row 4 and beyond are radio station data
 
-    file = open('AltaRadioStations.txt', 'w', encoding='UTF-8')
+    file = open(f'{prov}RadioStations.txt', 'w', encoding='UTF-8')
 
-    date = str(rows[1].find_all('td')[3])
+    date = str(rows[1].find_all('td')[3].text)
     # Regex to strip HTML tags from the date
-    date = re.sub('<[^<]+?>', '', date)
 
     file.write('Date Updated: ' + date + '\n\n')
 
@@ -113,7 +111,7 @@ def getData(url):
     print(f'\nElapsed time: {elapsed}s')
 
 def main():
-    pass
+    getData(sources.ab_url, sources.ab)
 
 
 if __name__ == "__main__":
