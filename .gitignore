@@ -3,6 +3,8 @@
 *.ini
 *.csv
 W3ValidatorScrape/*.html
+W3ValidatorScrape/*.css
+W3ValidatorScrape/*.js
 launch.json
 
 # Byte-compiled / optimized / DLL files
