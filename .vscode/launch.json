@@ -22,7 +22,8 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "./"
+                "./",
+                "-c",
             ]
         }
     ]

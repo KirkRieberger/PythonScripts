@@ -1,11 +1,13 @@
 import argparse
 import requests
 import os
+from datetime import datetime
 from sys import exit as sys_ex
-from bs4 import BeautifulSoup as bs # Also requires lxml to be installed
+from bs4 import BeautifulSoup as bs  # Also requires lxml to be installed
 from progress.bar import Bar
 
-def testFile(inFile):
+
+def validateHTML(inFile):
     '''
     Upload a file to the W3 Consortium HTML Validator and return a list of errors.
     ### Params:
@@ -24,7 +26,7 @@ def testFile(inFile):
 
     try:
         errors = list.find_all('li')
-    except AttributeError: # If no unordered list
+    except AttributeError:  # If no unordered list
         return "✔"  # Unicode 0x2714
 
     outStr = ""
@@ -52,14 +54,62 @@ def testFile(inFile):
         return "✔"  # Unicode 0x2714
     else:
         return outStr
+    
+def validateCSS(inFile):
+    '''
+    Upload a file to the W3 Consortium CSS Validator and return a list of errors.
+    ### Params:
+        inFile : An OS Encoded Filename in the current working directory
+
+    ### Returns:
+        outStr : A string of warnings and errors
+    '''
+    url = 'https://jigsaw.w3.org/css-validator/validator'
+    # Upload file to be tested
+    file = open(inFile, 'rb')
+    page = requests.post(url, data={'text': file})
+    if page.status_code != requests.codes.ok:
+        now = datetime.now()
+        timeStr = f"{now.date()}-T{now.hour}-{now.minute}"
+        logOut = open(f"validator-{timeStr}.log", "wt")
+        logOut.write(page.text)
+        logOut.close()
+        return "Request Error. See log"
+
+    # Parse returned page
+    soup = bs(page.text, 'lxml')
+    list = soup.find('tbody')
+
+    try:
+        errors = list.find_all('tr')
+    except AttributeError:  # If no unordered list
+        return "✔"  # Unicode 0x2714
+
+    outStr = ""
+
+    for line in errors:
+        if line.find("td", {"class": "linenumber"}) is not None:
+            row = line.find("span", {"class": "linenumber"}).text
+        elif line.find("span", {"class": "last-line"}) is not None:
+            row = line.find("span", {"class": "last-line"}).text
+        else:
+            row = "None"
+        
+        outStr += f"Line {row}"
+
+    if len(outStr) == 0:
+        return "✔"  # Unicode 0x2714
+    else:
+        return outStr
 
 
 def main():
     parser = argparse.ArgumentParser(
         description="Submit all HTML files in a directory to the W3 Consortium HTML Validator.")
     parser.add_argument('dir', type=str,
-                        help="The directory of HTML files to be validated")
-    # parser.add_argument()
+                        help="The directory of Webpage source files to be validated")
+    parser.add_argument("-v", "--HTML", action='store_true', help="Validate HTML files")
+    parser.add_argument("-c", "--CSS", action='store_true', help="Validate CSS files")
     args = parser.parse_args()
 
     dir = os.fsencode(args.dir)
@@ -71,17 +121,31 @@ def main():
 
     outFile = open("testOut.txt", "w", encoding="UTF-8")
 
-    fileList = {}
-    for file in os.listdir(dir):  # file == bytes
-        filename = os.fsdecode(file)  # String
-        if filename.endswith(".html") or filename.endswith(".htm"):
-            fileList.update({filename: file})
+    if (args.HTML):
+        htmlList = {}
+        for file in os.listdir(dir):  # file == bytes
+            filename = os.fsdecode(file)  # String
+            if filename.endswith(".html") or filename.endswith(".htm"):
+                htmlList.update({filename: file})
+
+        progBar = Bar("Validating HTML", max=len(htmlList))
+        for key in htmlList.keys():
+            outFile.write(f"{os.fsdecode(htmlList.get(key))}:\n")
+            outFile.write(f"{validateHTML(htmlList.get(key))}\n")
+            progBar.next()
     
-    progBar = Bar("Validating", max=len(fileList))
-    for key in fileList.keys():
-        outFile.write(f"{os.fsdecode(fileList.get(key))}:\n")
-        outFile.write(f"{testFile(fileList.get(key))}\n")
-        progBar.next()
+    if (args.CSS):
+        cssList = {}
+        for file in os.listdir(dir):  # file == bytes
+            filename = os.fsdecode(file)  # String
+            if filename.endswith(".css"):
+                cssList.update({filename: file})
+
+        progBar = Bar("Validating CSS", max=len(cssList))
+        for key in cssList.keys():
+            outFile.write(f"{os.fsdecode(cssList.get(key))}:\n")
+            outFile.write(f"{validateCSS(cssList.get(key))}")
+            progBar.next()
 
     outFile.close()
 
