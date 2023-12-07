@@ -1,3 +1,6 @@
 {
-    "html.format.wrapLineLength": 1250000
+    "html.format.wrapLineLength": 1250000,
+    "editor.rulers": [
+        80,
+    ]
 }
