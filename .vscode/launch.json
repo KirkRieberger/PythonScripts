@@ -22,7 +22,8 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "./"
+                "C:/Users/dr_mo/AppData/Local/FactoryGame/Saved/SaveGames/blueprints/Anotha One",
+                "-d"
             ]
         }
     ]
