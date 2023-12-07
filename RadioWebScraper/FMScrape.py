@@ -3,82 +3,139 @@
 # Issued under GPLv2 or later
 # See LICENCE.txt for full license
 
-#TODO: Command line args to select province, AM/FM/Both
-
+# TODO: Command line args to select province, AM/FM/Both
+# TODO: Command line args to select columns (Location, Frequency, Band, Station Name, Format, Call Sign, Power)
 import requests
-import re
+import argparse
 import time
 import sys
 from bs4 import BeautifulSoup as bs
 
-start = time.perf_counter()
 
-url = 'https://www.canadianradiodirectory.com/alberta/'
+class DataSources:
+    bc_url = "https://www.canadianradiodirectory.com/british-columbia/"
+    bc = "BC"
+    ab_url = "https://www.canadianradiodirectory.com/alberta/"
+    ab = "Alberta"
+    sk_url = "https://www.canadianradiodirectory.com/saskatchewan/"
+    sk = "Saskatchewan"
+    mb_url = "https://www.canadianradiodirectory.com/manitoba/"
+    mb = "Manitoba"
+    on_url = "https://www.canadianradiodirectory.com/ontario/"
+    on = "Ontario"
+    qc_url = "https://www.canadianradiodirectory.com/quebec/"
+    qc = "Quebec"
+    nb_url = "https://www.canadianradiodirectory.com/new-brunswick/"
+    nb = "NewBrunswick"
+    ns_url = "https://www.canadianradiodirectory.com/nova-scotia/"
+    ns = "NovaScotia"
+    pe_url = "https://www.canadianradiodirectory.com/prince-edward-island/"
+    pe = "PEI"
+    nl_url = "https://www.canadianradiodirectory.com/newfoundland-labrador/"
+    nl = "Newfoundland-Labrador"
+    yt_url = "https://www.canadianradiodirectory.com/yukon/"
+    yt = "Yukon"
+    nt_url = "https://www.canadianradiodirectory.com/northwest-territories/"
+    nt = "NorthwestTerritories"
+    nu_url = "https://www.canadianradiodirectory.com/nunavut/"
+    nu = "Nunavut"
 
-page = requests.get(url)
-print('Requesting data from Alberta radio directory...')
-if page.status_code == requests.codes.ok:
-    print('Connection successful!')
-else:
-    print('Error connecting to site')
-    sys.exit(1)
 
-soup = bs(page.text, 'lxml')
+sources = DataSources()
 
-table = soup.find('table')
-rows = table.find_all('tr')
 
-# Row 0 is spacing
-# Row 1 is site heading and date
-# Row 2 is spacing
-# Row 3 is column labels
-# Row 4 and beyond are radio station data
+def getData(url, prov):
+    page = requests.get(url)
+    print(f"Requesting data from {prov} radio directory...")
+    if page.status_code == requests.codes.ok:
+        print("Connection successful!")
+    else:
+        print("Error connecting to site")
+        sys.exit(1)
 
-file = open('AltaRadioStations.txt', 'w', encoding='UTF-8')
+    soup = bs(page.text, "lxml")
 
-date = str(rows[1].find_all('td')[3])
-# Regex to strip HTML tags from the date
-date = re.sub('<[^<]+?>', '', date)
+    table = soup.find("table")
+    rows = table.find_all("tr")
 
-file.write('Date Updated: ' + date + '\n\n')
+    return rows
 
-i = 4
-while (i < len(list(rows))):
-    # Parse table data (td) fields, skipping programming format, station name,
-    # and station call sign, one row at a time
-    temp = rows[i].find_all('td')
-    out = []
-    j = 0
-    while (j < 8):
-        # Skip programming format, station name, and call sign
-        if j == 3 or j == 4 or j == 5:
+
+def parseData(rows):
+    # Row 0 is spacing
+    # Row 1 is province/territory heading and date
+    # Row 2 is spacing
+    # Row 3 is column labels
+    # Row 4 and beyond are radio station data
+
+    # file = open(f'{prov}RadioStations.txt', 'w', encoding='UTF-8')
+
+    outputBuffer = ""
+
+    date = str(rows[1].find_all("td")[3].text)
+    outputBuffer += f"Date Updated: {date}\n\n"
+
+    i = 4
+    while i < len(list(rows)):
+        # Parse table data (td) fields, skipping programming format, station name,
+        # and station call sign, one row at a time
+        temp = rows[i].find_all("td")
+        out = []
+        j = 0
+        while j < 8:
+            # Skip programming format, station name, and call sign
+            if j == 3 or j == 4 or j == 5:
+                j += 1
+                continue
+            out.append(temp[j].text)
             j += 1
+        # Exit at first spacing line after data lines
+        if out == ["", "", "", "", ""]:
+            break
+        # Don't care about AM stations
+        elif out[2] == "AM" or out[2] == "HD1" or out[2] == "HD2":
+            i += 1
             continue
-        out.append(temp[j].text)
-        j += 1
-    # Exit at first spacing line after data lines
-    if out == ['', '', '', '', '']:
-        break
-    # Don't care about AM stations
-    elif out[2] == 'AM' or out[2] == 'HD1' or out[2] == 'HD2':
-        i += 1
-        continue
-    # Convert to standard power units
-    elif out[4] == 'kW':
-        out[3] = int(float(out[3])*1000)
-        out[4] = 'w'
-    k = 0
-    while k < 5:
-        if k == 2:
+        # Convert to standard power units
+        elif out[4] == "kW":
+            out[3] = int(float(out[3]) * 1000)
+            out[4] = "w"
+        k = 0
+        while k < 5:
+            if k == 2:
+                k += 1
+                continue
+            outputBuffer += f"{out[k] }"  # ('%s%s' % (out[k], ' '))  # f string
             k += 1
-            continue
-        file.write('%s%s' % (out[k], ' '))  # f string
-        k += 1
-    file.write('\n')
-    i += 1
+        outputBuffer += "\n"
+        i += 1
 
-file.close()
+    return outputBuffer
+    # file.close()
 
-end = time.perf_counter()
-elapsed = round(end - start, 2)
-print(f'\nElapsed time: {elapsed}s')
+
+def main():
+    parser = argparse.ArgumentParser(description="")
+    parser.add_argument("-bc", "--BritishColumbia", action="store_true", help="")
+    parser.add_argument("-ab", "--Alberta", action="store_true", help="")
+    parser.add_argument("-sk", "--Saskatchewan", action="store_true", help="")
+    parser.add_argument("-mb", "--Manitoba", action="store_true", help="")
+    parser.add_argument("-on", "--Ontario", action="store_true", help="")
+    parser.add_argument("-qc", "--Quebec", action="store_true", help="")
+    parser.add_argument("-nb", "--NewBrunswick", action="store_true", help="")
+    parser.add_argument("-ns", "--NovaScotia", action="store_true", help="")
+    parser.add_argument("-pe", "--PEI", action="store_true", help="")
+    parser.add_argument("-nl", "--Newfoundland", action="store_true", help="")
+    parser.add_argument("-yt", "--Yukon", action="store_true", help="")
+    parser.add_argument("-nt", "--NorthwestTerritories", action="store_true", help="")
+    parser.add_argument("-nu", "--Nunavut", action="store_true", help="")
+    parser.add_argument("-all", "--All", action="store_true", help="")
+    parser.add_argument("-prov", "--Province", help="")
+
+    args = parser.parse_args()
+    rows = getData(sources.ab_url, sources.ab)
+    data = parseData(rows)
+
+
+if __name__ == "__main__":
+    main()
