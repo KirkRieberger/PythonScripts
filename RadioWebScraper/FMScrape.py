@@ -5,6 +5,7 @@
 
 # TODO: Command line args to select province, AM/FM/Both
 # TODO: Command line args to select columns (Location, Frequency, Band, Station Name, Format, Call Sign, Power)
+# TODO: File type selector
 import requests
 import argparse
 import time
@@ -30,8 +31,8 @@ dataSources = {
 
 
 def getData(url, prov):
-    page = requests.get(url)
     print(f"Requesting data from {prov} radio directory...")
+    page = requests.get(url)
     if page.status_code == requests.codes.ok:
         print("Connection successful!")
     else:
@@ -128,7 +129,9 @@ def main():
         for prov in dataSources:
             rows = getData(dataSources.get(prov), prov)
             data = parseData(rows)
-            print(data)
+            outFile = open("CanadaRadioDirectory.txt", "wt")
+            outFile.write(data + "\n")
+            print(f"Processed {prov}")
 
     toGet = []
     args = vars(argsNamespace)
