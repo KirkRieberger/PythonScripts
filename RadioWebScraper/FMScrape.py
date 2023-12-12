@@ -9,7 +9,7 @@
 import requests
 import argparse
 import time
-import sys
+from sys import exit as sys_ex
 from bs4 import BeautifulSoup as bs
 
 baseURL = "https://www.canadianradiodirectory.com"
@@ -37,7 +37,7 @@ def getData(url, prov):
         print("Connection successful!")
     else:
         print("Error connecting to site")
-        sys.exit(1)
+        sys_ex
 
     soup = bs(page.text, "lxml")
 
@@ -126,12 +126,17 @@ def main():
     argsNamespace = parser.parse_args()
 
     if argsNamespace.All:
+        outFile = open("CanadaRadioDirectory.txt", "wt", encoding="UTF-8")
+        outFile.close()
         for prov in dataSources:
             rows = getData(dataSources.get(prov), prov)
             data = parseData(rows)
-            outFile = open("CanadaRadioDirectory.txt", "wt")
+            outFile = open("CanadaRadioDirectory.txt", "at", encoding="UTF-8")
             outFile.write(data + "\n")
             print(f"Processed {prov}")
+            outFile.close()
+
+        sys_ex()
 
     toGet = []
     args = vars(argsNamespace)
