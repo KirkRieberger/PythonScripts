@@ -31,7 +31,7 @@ dataSources = {
 }
 
 
-def provDecode(longName):
+def nameToAbbr(longName):
     match longName:
         case "BritishColumbia":
             return "BC"
@@ -59,7 +59,6 @@ def provDecode(longName):
             return "NT"
         case "Nunavut":
             return "NU"
-    pass
 
 
 def getData(url, prov):
@@ -167,15 +166,17 @@ def main():
             outFile.write(data + "\n")
             print(f"Processed {prov}")
             outFile.close()
-
         sys_ex()
 
     args = vars(argsNamespace)
     for arg in args:
         if args.get(arg):
-            prov = provDecode(arg)
+            prov = nameToAbbr(arg)
             rows = getData(dataSources.get(prov), prov)
             data = parseData(rows)
+            outFile = open(f"{arg}RadioDirectory.txt", "wt", encoding="UTF-8")
+            outFile.write(data)
+            outFile.close()
 
 
 if __name__ == "__main__":
