@@ -8,7 +8,8 @@
 # TODO: File type selector
 import requests
 import argparse
-import time
+
+# import time
 from sys import exit as sys_ex
 from bs4 import BeautifulSoup as bs
 
@@ -28,6 +29,37 @@ dataSources = {
     "NT": f"{baseURL}/northwest-territories/",
     "NU": f"{baseURL}/nunavut/",
 }
+
+
+def provDecode(longName):
+    match longName:
+        case "BritishColumbia":
+            return "BC"
+        case "Alberta":
+            return "AB"
+        case "Saskatchewan":
+            return "SK"
+        case "Manitoba":
+            return "MB"
+        case "Ontario":
+            return "ON"
+        case "Quebec":
+            return "QC"
+        case "NewBrunswick":
+            return "NB"
+        case "NovaScotia":
+            return "NS"
+        case "PEI":
+            return "PE"
+        case "Newfoundland":
+            return "NL"
+        case "Yukon":
+            return "YT"
+        case "NorthwestTerritories":
+            return "NT"
+        case "Nunavut":
+            return "NU"
+    pass
 
 
 def getData(url, prov):
@@ -138,14 +170,12 @@ def main():
 
         sys_ex()
 
-    toGet = []
     args = vars(argsNamespace)
     for arg in args:
         if args.get(arg):
-            toGet.append(arg)
-
-    rows = getData(dataSources.keys(), dataSources.values())
-    data = parseData(rows)
+            prov = provDecode(arg)
+            rows = getData(dataSources.get(prov), prov)
+            data = parseData(rows)
 
 
 if __name__ == "__main__":

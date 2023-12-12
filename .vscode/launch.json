@@ -22,7 +22,9 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "-all"
+                "-bc",
+                "-ab",
+                "-sk"
             ]
         }
     ]
