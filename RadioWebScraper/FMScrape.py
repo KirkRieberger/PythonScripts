@@ -11,37 +11,22 @@ import time
 import sys
 from bs4 import BeautifulSoup as bs
 
-
-class DataSources:
-    bc_url = "https://www.canadianradiodirectory.com/british-columbia/"
-    bc = "BC"
-    ab_url = "https://www.canadianradiodirectory.com/alberta/"
-    ab = "Alberta"
-    sk_url = "https://www.canadianradiodirectory.com/saskatchewan/"
-    sk = "Saskatchewan"
-    mb_url = "https://www.canadianradiodirectory.com/manitoba/"
-    mb = "Manitoba"
-    on_url = "https://www.canadianradiodirectory.com/ontario/"
-    on = "Ontario"
-    qc_url = "https://www.canadianradiodirectory.com/quebec/"
-    qc = "Quebec"
-    nb_url = "https://www.canadianradiodirectory.com/new-brunswick/"
-    nb = "NewBrunswick"
-    ns_url = "https://www.canadianradiodirectory.com/nova-scotia/"
-    ns = "NovaScotia"
-    pe_url = "https://www.canadianradiodirectory.com/prince-edward-island/"
-    pe = "PEI"
-    nl_url = "https://www.canadianradiodirectory.com/newfoundland-labrador/"
-    nl = "Newfoundland-Labrador"
-    yt_url = "https://www.canadianradiodirectory.com/yukon/"
-    yt = "Yukon"
-    nt_url = "https://www.canadianradiodirectory.com/northwest-territories/"
-    nt = "NorthwestTerritories"
-    nu_url = "https://www.canadianradiodirectory.com/nunavut/"
-    nu = "Nunavut"
-
-
-sources = DataSources()
+baseURL = "https://www.canadianradiodirectory.com"
+dataSources = {
+    "BC": f"{baseURL}/british-columbia/",
+    "AB": f"{baseURL}/alberta/",
+    "SK": f"{baseURL}/saskatchewan/",
+    "MB": f"{baseURL}/manitoba/",
+    "ON": f"{baseURL}/ontario/",
+    "QC": f"{baseURL}/quebec/",
+    "NB": f"{baseURL}/new-brunswick/",
+    "NS": f"{baseURL}/nova-scotia/",
+    "PE": f"{baseURL}/prince-edward-island/",
+    "NL": f"{baseURL}/newfoundland-labrador/",
+    "YT": f"{baseURL}/yukon/",
+    "NT": f"{baseURL}/northwest-territories/",
+    "NU": f"{baseURL}/nunavut/",
+}
 
 
 def getData(url, prov):
@@ -105,7 +90,7 @@ def parseData(rows):
             if k == 2:
                 k += 1
                 continue
-            outputBuffer += f"{out[k] }"  # ('%s%s' % (out[k], ' '))  # f string
+            outputBuffer += f"{out[k]} "  # ('%s%s' % (out[k], ' '))  # f string
             k += 1
         outputBuffer += "\n"
         i += 1
@@ -129,11 +114,29 @@ def main():
     parser.add_argument("-yt", "--Yukon", action="store_true", help="")
     parser.add_argument("-nt", "--NorthwestTerritories", action="store_true", help="")
     parser.add_argument("-nu", "--Nunavut", action="store_true", help="")
-    parser.add_argument("-all", "--All", action="store_true", help="")
+    parser.add_argument(
+        "-all",
+        "--All",
+        action="store_true",
+        help="Get radio data for all provinces. This argument supercedes all others",
+    )
     parser.add_argument("-prov", "--Province", help="")
 
-    args = parser.parse_args()
-    rows = getData(sources.ab_url, sources.ab)
+    argsNamespace = parser.parse_args()
+
+    if argsNamespace.All:
+        for prov in dataSources:
+            rows = getData(dataSources.get(prov), prov)
+            data = parseData(rows)
+            print(data)
+
+    toGet = []
+    args = vars(argsNamespace)
+    for arg in args:
+        if args.get(arg):
+            toGet.append(arg)
+
+    rows = getData(dataSources.keys(), dataSources.values())
     data = parseData(rows)
 
 
