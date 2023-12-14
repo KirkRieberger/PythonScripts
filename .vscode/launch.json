@@ -22,9 +22,8 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "-bc",
-                "-ab",
-                "-sk"
+                "-v",
+                "C:/Users/Kirk/Desktop/CPRO 1101/Fall 2023/Assigns/A2/Feedback/Bromling, Corbyn -A2-Feedback/Assignment #2_cbromling_attempt_2023-11-26-03-56-28_Bromling-Corbyn-a2"
             ]
         }
     ]
