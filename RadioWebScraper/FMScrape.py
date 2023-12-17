@@ -105,10 +105,11 @@ def parseData(rows: ResultSet):
         str: An output buffer ready to be written to disk
     """
     # Row 0 is spacing
-    # Row 1 is province/territory heading and date
+    # Row 1 is province/territory heading and update date
     # Row 2 is spacing
     # Row 3 is column labels
     # Row 4 and beyond are radio station data
+    # Columns: [Location, Frequency, Band, Name, Format, Call Sign, Power, Units]
 
     # file = open(f'{prov}RadioStations.txt', 'w', encoding='UTF-8')
 
