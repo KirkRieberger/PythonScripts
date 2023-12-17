@@ -11,7 +11,7 @@ import argparse
 
 # import time
 from sys import exit as sys_ex
-from bs4 import BeautifulSoup as bs
+from bs4 import BeautifulSoup as bs, ResultSet
 
 baseURL = "https://www.canadianradiodirectory.com"
 dataSources = {
@@ -31,7 +31,15 @@ dataSources = {
 }
 
 
-def nameToAbbr(longName):
+def nameToAbbr(longName: str):
+    """Converts the long province name from the Argument Parser to the ISO 3166-2:CA provincial abbreviation
+
+    Args:
+        longName (str): The long-form province name
+
+    Returns:
+        str: The ISO standard province name abbreviation
+    """
     match longName:
         case "BritishColumbia":
             return "BC"
@@ -61,7 +69,16 @@ def nameToAbbr(longName):
             return "NU"
 
 
-def getData(url, prov):
+def getData(prov: str, url: str):
+    """Connects to the Canadian Radio Directory to get a current list of radio stations in a province
+
+    Args:
+        prov (str): The short name of the desired province
+        url (str): The destination URL for the desired province
+
+    Returns:
+        ResultSet: The HTML table the data is stored in split into rows
+    """
     print(f"Requesting data from {prov} radio directory...")
     page = requests.get(url)
     if page.status_code == requests.codes.ok:
@@ -78,7 +95,15 @@ def getData(url, prov):
     return rows
 
 
-def parseData(rows):
+def parseData(rows: ResultSet):
+    """Parses the incoming ResultSet into human-useable data
+
+    Args:
+        rows (ResultSet): A set of <tr> elements in a ResultSet container
+
+    Returns:
+        str: An output buffer ready to be written to disk
+    """
     # Row 0 is spacing
     # Row 1 is province/territory heading and date
     # Row 2 is spacing
@@ -160,7 +185,7 @@ def main():
         outFile = open("CanadaRadioDirectory.txt", "wt", encoding="UTF-8")
         outFile.close()
         for prov in dataSources:
-            rows = getData(dataSources.get(prov), prov)
+            rows = getData(prov, dataSources.get(prov))
             data = parseData(rows)
             outFile = open("CanadaRadioDirectory.txt", "at", encoding="UTF-8")
             outFile.write(data + "\n")
@@ -172,7 +197,7 @@ def main():
     for arg in args:
         if args.get(arg):
             prov = nameToAbbr(arg)
-            rows = getData(dataSources.get(prov), prov)
+            rows = getData(prov, dataSources.get(prov))
             data = parseData(rows)
             outFile = open(f"{arg}RadioDirectory.txt", "wt", encoding="UTF-8")
             outFile.write(data)
