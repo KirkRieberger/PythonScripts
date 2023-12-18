@@ -199,20 +199,31 @@ def createParser():
     return parser
 
 
+def checkAll(argsNamespace: argparse.Namespace):
+    """Check for "all" argument on its own and in Province list (if non-empty)
+
+    Args:
+        argsNamespace (argparse.Namespace): The parsed arguments
+
+    Returns:
+        bool: If the "all" flag is set anywhere in the arguments
+    """
+    if argsNamespace.All:
+        return True
+    elif argsNamespace.Province is not None:
+        if "all" in map(str.lower, argsNamespace.Province):
+            return True
+        else:
+            return False
+    else:
+        return False
+
+
 def main():
     parser = createParser()
     argsNamespace = parser.parse_args()
 
-    # Check for "all" argument on its own and in Province list (if non-empty)
-    if argsNamespace.All:
-        all = True
-    elif argsNamespace.Province is not None:
-        if "all" in map(str.lower, argsNamespace.Province):
-            all = True
-        else:
-            all = False
-    else:
-        all = False
+    all = checkAll(argsNamespace)
 
     # Process all provinces if all option selected
     if all:
