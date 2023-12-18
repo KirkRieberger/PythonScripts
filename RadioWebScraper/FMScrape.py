@@ -155,7 +155,7 @@ def parseData(rows: ResultSet):
     # file.close()
 
 
-def createParser():
+def createArgParser():
     """Create an instance of argparse with all the required arguments
 
     Returns:
@@ -257,7 +257,7 @@ def processAll():
 
 
 def main():
-    parser = createParser()
+    parser = createArgParser()
     argsNamespace = parser.parse_args()
 
     # Process all provinces if all option selected
