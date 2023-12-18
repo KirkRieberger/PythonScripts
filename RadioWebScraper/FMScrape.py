@@ -157,7 +157,12 @@ def parseData(rows: ResultSet):
     # file.close()
 
 
-def main():
+def createParser():
+    """Create an instance of argparse with all the required arguments
+
+    Returns:
+        ArgumentParser: The finished Argument Parser
+    """
     parser = argparse.ArgumentParser(
         description="", usage="%(prog)s -prov <province(s)> or -<province(s)> or -all"
     )
@@ -191,6 +196,11 @@ def main():
         help="",
     )
 
+    return parser
+
+
+def main():
+    parser = createParser()
     argsNamespace = parser.parse_args()
 
     # Check for "all" argument on its own and in Province list (if non-empty)
