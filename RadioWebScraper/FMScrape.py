@@ -8,8 +8,6 @@
 # TODO: File type selector
 import requests
 import argparse
-
-# import time
 from sys import exit as sys_ex
 from bs4 import BeautifulSoup as bs, ResultSet
 
