@@ -174,6 +174,7 @@ def main():
     parser.add_argument("-nu", "--Nunavut", action="store_true", help="")
     parser.add_argument(
         "-all",
+        "-a",
         "--All",
         action="store_true",
         help="Get radio data for all provinces. This argument supercedes all others",
@@ -189,7 +190,17 @@ def main():
 
     argsNamespace = parser.parse_args()
 
-    if argsNamespace.All or "all" in map(str.lower, argsNamespace.Province):
+    # Check for "all" argument on its own and in Province list (if non-empty)
+    if argsNamespace.All:
+        all = True
+    elif argsNamespace.Province is not None:
+        if "all" in map(str.lower, argsNamespace.Province):
+            all = True
+    else:
+        all = False
+
+    # Process all provinces if all option selected
+    if all:
         outFile = open("CanadaRadioDirectory.txt", "wt", encoding="UTF-8")
         outFile.close()
         for prov in dataSources:
@@ -201,16 +212,18 @@ def main():
             outFile.close()
         sys_ex()
 
+    # Determine which provinces need to be processed
     args = vars(argsNamespace)
     if args.get("Province") is None:
         toProcess = []
         # Check other args
         for arg in args:
-            if nameToAbbr(arg) in dataSources:
-                toProcess.append(arg)  # use for progress bar
+            if args.get(arg):
+                toProcess.append(nameToAbbr(arg))  # use for progress bar
     else:
         toProcess = args.get("Province")
 
+    # Process provinces
     for prov in toProcess:
         rows = getData(prov, dataSources.get(prov))
         data = parseData(rows)

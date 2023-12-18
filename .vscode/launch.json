@@ -36,10 +36,9 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "-p",
-                "ab",
-                "bc",
-                "sk",
+                "-ab",
+                "-bc",
+                "-sk",
             ]
         }
     ]
