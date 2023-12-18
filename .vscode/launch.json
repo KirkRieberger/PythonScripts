@@ -34,11 +34,12 @@
             "program": "${file}",
             "cwd": "${fileDirname}",
             "console": "integratedTerminal",
-            "justMyCode": true,
+            "justMyCode": false,
             "args": [
-                "-ab",
-                "-bc",
-                "-sk",
+                "-p",
+                "ab",
+                "bc",
+                "sk"
             ]
         }
     ]

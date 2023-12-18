@@ -158,7 +158,9 @@ def parseData(rows: ResultSet):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="")
+    parser = argparse.ArgumentParser(
+        description="", usage="%(prog)s -prov <province(s)> or -<province(s)> or -all"
+    )
     parser.add_argument("-bc", "--BritishColumbia", action="store_true", help="")
     parser.add_argument("-ab", "--Alberta", action="store_true", help="")
     parser.add_argument("-sk", "--Saskatchewan", action="store_true", help="")
@@ -182,9 +184,10 @@ def main():
     parser.add_argument(
         "-p",
         "--Province",
-        choices=dataSources.keys(),
+        choices=list(dataSources.keys()),
         type=str.upper,
-        nargs="+",
+        nargs="*",
+        metavar=" ".join(dataSources.keys()),
         help="",
     )
 
@@ -196,6 +199,8 @@ def main():
     elif argsNamespace.Province is not None:
         if "all" in map(str.lower, argsNamespace.Province):
             all = True
+        else:
+            all = False
     else:
         all = False
 
