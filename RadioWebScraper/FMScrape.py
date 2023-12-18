@@ -178,11 +178,18 @@ def main():
         action="store_true",
         help="Get radio data for all provinces. This argument supercedes all others",
     )
-    parser.add_argument("-prov", "--Province", help="")
+    parser.add_argument(
+        "-p",
+        "--Province",
+        choices=dataSources.keys(),
+        type=str.upper,
+        nargs="+",
+        help="",
+    )
 
     argsNamespace = parser.parse_args()
 
-    if argsNamespace.All:
+    if argsNamespace.All or "all" in map(str.lower, argsNamespace.Province):
         outFile = open("CanadaRadioDirectory.txt", "wt", encoding="UTF-8")
         outFile.close()
         for prov in dataSources:
@@ -195,14 +202,21 @@ def main():
         sys_ex()
 
     args = vars(argsNamespace)
-    for arg in args:
-        if args.get(arg):
-            prov = nameToAbbr(arg)
-            rows = getData(prov, dataSources.get(prov))
-            data = parseData(rows)
-            outFile = open(f"{arg}RadioDirectory.txt", "wt", encoding="UTF-8")
-            outFile.write(data)
-            outFile.close()
+    if args.get("Province") is None:
+        toProcess = []
+        # Check other args
+        for arg in args:
+            if nameToAbbr(arg) in dataSources:
+                toProcess.append(arg)  # use for progress bar
+    else:
+        toProcess = args.get("Province")
+
+    for prov in toProcess:
+        rows = getData(prov, dataSources.get(prov))
+        data = parseData(rows)
+        outFile = open(f"{prov}RadioDirectory.txt", "wt", encoding="UTF-8")
+        outFile.write(data)
+        outFile.close()
 
 
 if __name__ == "__main__":
