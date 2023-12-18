@@ -219,6 +219,22 @@ def checkAll(argsNamespace: argparse.Namespace):
         return False
 
 
+def processAll():
+    """
+    Processes all provinces and territories
+    """
+    outFile = open("CanadaRadioDirectory.txt", "wt", encoding="UTF-8")
+    outFile.close()
+    for prov in dataSources:
+        rows = getData(prov, dataSources.get(prov))
+        data = parseData(rows)
+        outFile = open("CanadaRadioDirectory.txt", "at", encoding="UTF-8")
+        outFile.write(data + "\n")
+        print(f"Processed {prov}")
+        outFile.close()
+    sys_ex()
+
+
 def main():
     parser = createParser()
     argsNamespace = parser.parse_args()
@@ -227,16 +243,7 @@ def main():
 
     # Process all provinces if all option selected
     if all:
-        outFile = open("CanadaRadioDirectory.txt", "wt", encoding="UTF-8")
-        outFile.close()
-        for prov in dataSources:
-            rows = getData(prov, dataSources.get(prov))
-            data = parseData(rows)
-            outFile = open("CanadaRadioDirectory.txt", "at", encoding="UTF-8")
-            outFile.write(data + "\n")
-            print(f"Processed {prov}")
-            outFile.close()
-        sys_ex()
+        processAll()
 
     # Determine which provinces need to be processed
     args = vars(argsNamespace)
