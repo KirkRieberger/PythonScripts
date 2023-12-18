@@ -166,34 +166,57 @@ def createParser():
     parser = argparse.ArgumentParser(
         description="", usage="%(prog)s -prov <province(s)> or -<province(s)> or -all"
     )
-    parser.add_argument("-bc", "--BritishColumbia", action="store_true", help="")
-    parser.add_argument("-ab", "--Alberta", action="store_true", help="")
-    parser.add_argument("-sk", "--Saskatchewan", action="store_true", help="")
-    parser.add_argument("-mb", "--Manitoba", action="store_true", help="")
-    parser.add_argument("-on", "--Ontario", action="store_true", help="")
-    parser.add_argument("-qc", "--Quebec", action="store_true", help="")
-    parser.add_argument("-nb", "--NewBrunswick", action="store_true", help="")
-    parser.add_argument("-ns", "--NovaScotia", action="store_true", help="")
-    parser.add_argument("-pe", "--PEI", action="store_true", help="")
-    parser.add_argument("-nl", "--Newfoundland", action="store_true", help="")
-    parser.add_argument("-yt", "--Yukon", action="store_true", help="")
-    parser.add_argument("-nt", "--NorthwestTerritories", action="store_true", help="")
-    parser.add_argument("-nu", "--Nunavut", action="store_true", help="")
-    parser.add_argument(
+    # Province Arguments
+    provGroup = parser.add_argument_group("Provinces")
+    provGroup.add_argument("-bc", "--BritishColumbia", action="store_true", help="")
+    provGroup.add_argument("-ab", "--Alberta", action="store_true", help="")
+    provGroup.add_argument("-sk", "--Saskatchewan", action="store_true", help="")
+    provGroup.add_argument("-mb", "--Manitoba", action="store_true", help="")
+    provGroup.add_argument("-on", "--Ontario", action="store_true", help="")
+    provGroup.add_argument("-qc", "--Quebec", action="store_true", help="")
+    provGroup.add_argument("-nb", "--NewBrunswick", action="store_true", help="")
+    provGroup.add_argument("-ns", "--NovaScotia", action="store_true", help="")
+    provGroup.add_argument("-pe", "--PEI", action="store_true", help="")
+    provGroup.add_argument("-nl", "--Newfoundland", action="store_true", help="")
+    provGroup.add_argument("-yt", "--Yukon", action="store_true", help="")
+    provGroup.add_argument(
+        "-nt", "--NorthwestTerritories", action="store_true", help=""
+    )
+    provGroup.add_argument("-nu", "--Nunavut", action="store_true", help="")
+    provGroup.add_argument(
         "-all",
         "-a",
         "--All",
         action="store_true",
-        help="Get radio data for all provinces. This argument supercedes all others",
+        help="Get radio data for all provinces, and output a single file. \
+        This argument supercedes all others",
     )
-    parser.add_argument(
-        "-p",
+    provGroup.add_argument(
+        "-prov",
         "--Province",
         choices=list(dataSources.keys()),
         type=str.upper,
         nargs="*",
         metavar=" ".join(dataSources.keys()),
-        help="",
+        help="Gets radio data for the selected provinces. Supercedes -prov arguments",
+    )
+    # Requested Data Arguments
+    dataGroup = parser.add_argument_group("Available Datasets")
+    dataGroup.add_argument("-loc", "--Location", action="store_true")
+    dataGroup.add_argument("-freq", "--Frequency", action="store_true")
+    dataGroup.add_argument("-band", "--Band", action="store_true")
+    dataGroup.add_argument("-name", "--Name", action="store_true")
+    dataGroup.add_argument("-form", "--Format", action="store_true")
+    dataGroup.add_argument("-call", "--CallSign", action="store_true")
+    dataGroup.add_argument("-pow", "--Power", action="store_true")
+
+    # Other Arguments
+    parser.add_argument(
+        "-f",
+        "--File",
+        choices=["txt", "csv"],
+        default="txt",
+        help="The output file type. Defaults to plain text.",
     )
 
     return parser
@@ -239,10 +262,8 @@ def main():
     parser = createParser()
     argsNamespace = parser.parse_args()
 
-    all = checkAll(argsNamespace)
-
     # Process all provinces if all option selected
-    if all:
+    if checkAll(argsNamespace):
         processAll()
 
     # Determine which provinces need to be processed
