@@ -3,7 +3,7 @@
 # Issued under GPLv2 or later
 # See LICENCE.txt for full license
 
-# TODO: Command line args to select province, AM/FM/Both
+# TODO: Command line args to select AM/FM/Both
 # TODO: Command line args to select columns (Location, Frequency, Band, Station Name, Format, Call Sign, Power)
 # TODO: File type selector
 import requests
