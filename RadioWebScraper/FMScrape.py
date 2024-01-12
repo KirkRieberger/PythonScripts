@@ -93,11 +93,12 @@ def getData(prov: str, url: str):
     return rows
 
 
-def parseData(rows: ResultSet):
+def parseData(rows: ResultSet, dataSelect: dict):
     """Parses the incoming ResultSet into human-useable data
 
     Args:
         rows (ResultSet): A set of <tr> elements in a ResultSet container
+        dataSelect (dict): Data to be returned to the user
 
     Returns:
         str: An output buffer ready to be written to disk
@@ -109,8 +110,6 @@ def parseData(rows: ResultSet):
     # Row 4 and beyond are radio station data
     # Columns: [Location, Frequency, Band, Name, Format, Call Sign, Power, Units]
 
-    # file = open(f'{prov}RadioStations.txt', 'w', encoding='UTF-8')
-
     outputBuffer = ""
 
     date = str(rows[1].find_all("td")[3].text)
@@ -120,6 +119,8 @@ def parseData(rows: ResultSet):
     while i < len(list(rows)):
         # Parse table data (td) fields, skipping programming format, station name,
         # and station call sign, one row at a time
+        # temp format: City, Freq, Band, Name, Format, Call Sign, Power, Units
+        #                 0,    1,    2,    3,      4,         5,     6,     7
         temp = rows[i].find_all("td")
         out = []
         j = 0
@@ -152,7 +153,6 @@ def parseData(rows: ResultSet):
         i += 1
 
     return outputBuffer
-    # file.close()
 
 
 def createArgParser():
@@ -182,14 +182,6 @@ def createArgParser():
     )
     provGroup.add_argument("-nu", "--Nunavut", action="store_true", help="")
     provGroup.add_argument(
-        "-all",
-        "-a",
-        "--All",
-        action="store_true",
-        help="Get radio data for all provinces, and output a single file. \
-        This argument supercedes all others",
-    )
-    provGroup.add_argument(
         "-prov",
         "--Province",
         choices=list(dataSources.keys()),
@@ -209,6 +201,14 @@ def createArgParser():
     dataGroup.add_argument("-pow", "--Power", action="store_true")
 
     # Other Arguments
+    parser.add_argument(
+        "-all",
+        "-a",
+        "--All",
+        action="store_true",
+        help="Get all radio data for all provinces, and output a single file. \
+        This argument supercedes all others",
+    )
     parser.add_argument(
         "-f",
         "--File",
@@ -244,11 +244,21 @@ def processAll():
     """
     Processes all provinces and territories
     """
+    # Clear output file if present
     outFile = open("CanadaRadioDirectory.txt", "wt", encoding="UTF-8")
     outFile.close()
+    dataSelect = {
+        "city": True,
+        "freq": True,
+        "band": True,
+        "name": True,
+        "form": True,
+        "call": True,
+        "pow": True,
+    }
     for prov in dataSources:
         rows = getData(prov, dataSources.get(prov))
-        data = parseData(rows)
+        data = parseData(rows, dataSelect)
         outFile = open("CanadaRadioDirectory.txt", "at", encoding="UTF-8")
         outFile.write(data + "\n")
         print(f"Processed {prov}")
@@ -264,8 +274,19 @@ def main():
     if checkAll(argsNamespace):
         processAll()
 
-    # Determine which provinces need to be processed
     args = vars(argsNamespace)
+    # Pull out selected datasets to make passing easier
+    dataSelect = {
+        "city": args["Location"],
+        "freq": args["Frequency"],
+        "band": args["Band"],
+        "name": args["Name"],
+        "form": args["Format"],
+        "call": args["CallSign"],
+        "pow": args["Power"],
+    }
+
+    # Determine which provinces need to be processed
     if args.get("Province") is None:
         toProcess = []
         # Check other args
@@ -278,7 +299,7 @@ def main():
     # Process provinces
     for prov in toProcess:
         rows = getData(prov, dataSources.get(prov))
-        data = parseData(rows)
+        data = parseData(rows, dataSelect)
         outFile = open(f"{prov}RadioDirectory.txt", "wt", encoding="UTF-8")
         outFile.write(data)
         outFile.close()
