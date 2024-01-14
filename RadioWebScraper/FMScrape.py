@@ -115,6 +115,11 @@ def parseData(rows: ResultSet, dataSelect: dict):
     date = str(rows[1].find_all("td")[3].text)
     outputBuffer += f"Date Updated: {date}\n\n"
 
+    # Loop through data once for each selected type
+    # Switch/if statement for each j
+
+    # Old way. Fixed data set
+
     i = 4
     while i < len(list(rows)):
         # Parse table data (td) fields, skipping programming format, station name,
