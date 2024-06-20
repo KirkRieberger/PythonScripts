@@ -2,6 +2,7 @@
 !LICENSE.txt
 *.ini
 *.csv
+*.xlsx
 W3ValidatorScrape/*.html
 W3ValidatorScrape/*.css
 W3ValidatorScrape/*.js
