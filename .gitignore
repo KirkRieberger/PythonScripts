@@ -3,6 +3,7 @@
 *.ini
 *.csv
 *.xlsx
+!BTD6Money.xlsx
 W3ValidatorScrape/*.html
 W3ValidatorScrape/*.css
 W3ValidatorScrape/*.js
