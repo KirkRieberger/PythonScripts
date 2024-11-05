@@ -6,6 +6,8 @@ from sys import exit as sys_ex
 from bs4 import BeautifulSoup as bs  # Also requires lxml to be installed
 from progress.bar import Bar
 
+# TODO: Recursively search subfolders
+
 
 def validateHTML(inFile):
     """
