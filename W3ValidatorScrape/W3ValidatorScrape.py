@@ -6,6 +6,9 @@ from sys import exit as sys_ex
 from bs4 import BeautifulSoup as bs  # Also requires lxml to be installed
 from progress.bar import Bar
 
+# TODO: Recursively search subfolders
+# TODO: Replace progress with something updated recently
+
 
 def validateHTML(inFile):
     """
