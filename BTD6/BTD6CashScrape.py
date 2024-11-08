@@ -1,7 +1,7 @@
 import requests
 from sys import exit as sys_ex
 from sys import argv
-from bs4 import BeautifulSoup as bs, ResultSet
+from bs4 import BeautifulSoup as bs
 
 baseURL = "https://bloons.fandom.com/wiki/"
 std = "Rounds_(BTD6)"
