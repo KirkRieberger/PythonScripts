@@ -154,6 +154,7 @@ def main():
             progBar.next()
 
     outFile.close()
+    print("")
 
 
 if __name__ == "__main__":
